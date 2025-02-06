@@ -1,15 +1,23 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const http_1 = __importDefault(require("http"));
-const server = http_1.default.createServer((req, resp) => {
-    console.log(req.url);
-    resp.writeHead(200, { 'content-type': 'text/html' });
-    resp.write('<h1>Hola Mundo!</h1>');
-    resp.end();
-});
-server.listen(8080, () => {
-    console.log('Server running on host 8080');
-});
+const envs_1 = require("./config/envs");
+const server_1 = require("./presentation/server");
+(() => __awaiter(void 0, void 0, void 0, function* () {
+    main();
+}))();
+function main() {
+    const server = new server_1.Server({
+        port: envs_1.envs.PORT,
+        public_path: envs_1.envs.PUBLIC_PATH
+    });
+    server.start();
+}
